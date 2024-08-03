@@ -1,0 +1,20 @@
+{
+  "name": "uniuno-scheduler",
+  "keywords": "Task scheduling library",
+  "description": "Supports: calling with a delay, calling at specified interval, calling at specified interval with specified amount of time.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uniuno/scheduler"
+  },
+  "authors": [
+    {
+      "name": "Tomasz Tarnowski",
+      "email": "contact@tomasztarnowski.com",
+      "url": "https://github.com/ttarnowski",
+      "maintainer": true
+    }
+  ],
+  "version": "1.0.0",
+  "frameworks": "*",
+  "platforms": "*"
+}

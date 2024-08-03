@@ -1,0 +1,32 @@
+
+
+#######################################
+# Syntax Coloring Map For Time
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+Scheduler	KEYWORD1
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+set_timeout	KEYWORD2
+set_interval	KEYWORD2
+set_interval_until	KEYWORD2
+set_immediate	KEYWORD2
+set_on_loop	KEYWORD2
+set_on_loop_until	KEYWORD2
+clear_timeout	KEYWORD2
+clear_interval	KEYWORD2
+attach_to_loop	KEYWORD2
+detach_from_loop	KEYWORD2
+tick	KEYWORD2
+Scheduler	KEYWORD2
+#######################################
+# Instances (KEYWORD2)
+#######################################
+Scheduler KEYWORD1
+#######################################
+# Constants (LITERAL1)
+#######################################
