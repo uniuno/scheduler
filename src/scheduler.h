@@ -173,6 +173,36 @@ public:
     }
   }
 
+  bool has_tasks() {
+    return this->timeouts.size() > 0 && this->intervals.size() > 0;
+  }
+
+  uint32_t get_time_until_next_call() {
+    if (this->timeouts.size() == 0 && this->intervals.size() == 0) {
+      return 0;
+    }
+
+    uint32_t min_time = 0;
+
+    for (std::size_t i = 0; i < this->timeouts.size(); i++) {
+      if (this->timeouts[i].next_call_time < min_time) {
+        min_time = this->timeouts[i].next_call_time;
+      }
+    }
+
+    for (std::size_t i = 0; i < this->intervals.size(); i++) {
+      if (this->intervals[i].next_call_time < min_time) {
+        min_time = this->intervals[i].next_call_time;
+      }
+    }
+
+    if (min_time <= 0) {
+      return 0;
+    }
+
+    return min_time - this->get_now();
+  }
+
 private:
   GetTimeFunction_t now;
 
