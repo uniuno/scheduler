@@ -107,35 +107,33 @@ public:
       return;
     }
 
-    if (this->interval_ids_to_remove.size() > 0) {
-      for (std::size_t i = 0; i < this->interval_ids_to_remove.size(); i++) {
-        for (std::size_t j = 0; j < this->intervals.size(); j++) {
-          if (this->intervals[j].id == this->interval_ids_to_remove[i]) {
-            this->intervals.erase(this->intervals.begin() + j);
-            break;
-          } else {
-            this->interval_ids_to_remove.erase(
-                this->interval_ids_to_remove.begin() + i);
-          }
+    if (!this->interval_ids_to_remove.empty()) {
+      for (const auto &id_to_remove : this->interval_ids_to_remove) {
+        auto it = std::remove_if(this->intervals.begin(), this->intervals.end(),
+                                 [&id_to_remove](const Interval &interval) {
+                                   return interval.id == id_to_remove;
+                                 });
+        if (it != this->intervals.end()) {
+          this->intervals.erase(it, this->intervals.end());
         }
       }
 
+      this->interval_ids_to_remove.clear();
       return;
     }
 
-    if (this->timeout_ids_to_remove.size() > 0) {
-      for (std::size_t i = 0; i < this->timeout_ids_to_remove.size(); i++) {
-        for (std::size_t j = 0; j < this->timeouts.size(); j++) {
-          if (this->timeouts[j].id == this->timeout_ids_to_remove[i]) {
-            this->timeouts.erase(this->timeouts.begin() + j);
-            break;
-          } else {
-            this->timeout_ids_to_remove.erase(
-                this->timeout_ids_to_remove.begin() + i);
-          }
+    if (!this->timeout_ids_to_remove.empty()) {
+      for (const auto &id_to_remove : this->timeout_ids_to_remove) {
+        auto it = std::remove_if(this->timeouts.begin(), this->timeouts.end(),
+                                 [&id_to_remove](const Timeout &timeout) {
+                                   return timeout.id == id_to_remove;
+                                 });
+        if (it != this->timeouts.end()) {
+          this->timeouts.erase(it, this->timeouts.end());
         }
       }
 
+      this->timeout_ids_to_remove.clear();
       return;
     }
 
@@ -153,8 +151,8 @@ public:
           this->intervals[i].on_timeout_callback != nullptr) {
         this->intervals[i].on_timeout_callback(
             this->intervals[i].pvTimeoutParameters);
-        this->intervals.erase(this->intervals.begin() + i);
-        printf("timeout\n");
+
+        this->timeout_ids_to_remove.push_back(this->intervals[i].id);
         continue;
       }
 
@@ -163,7 +161,7 @@ public:
       }
 
       if (this->intervals[i].callback(this->intervals[i].pvParameters)) {
-        this->intervals.erase(this->intervals.begin() + i);
+        this->interval_ids_to_remove.push_back(this->intervals[i].id);
       } else {
         this->intervals[i].next_call_time =
             this->get_now() + this->intervals[i].interval_time;

@@ -82,7 +82,7 @@ struct interval_until_params {
   std::array<CallbackStub, 16> *callback_stubs;
 };
 
-bool interval_untill_callback_function(void *pvParameters) {
+bool interval_until_callback_function(void *pvParameters) {
   interval_until_params *params = (interval_until_params *)pvParameters;
 
   if (counter++ == params->callback_stubs->size()) {
@@ -106,7 +106,7 @@ void test_set_interval_executes_interconnected_intervals_with_the_use_of_set_int
 
   counter = 0;
   interval_until_params params = {&scheduler, &callback_stubs};
-  scheduler.set_interval_until(&interval_untill_callback_function, &params, 11);
+  scheduler.set_interval_until(&interval_until_callback_function, &params, 11);
 
   tick_for(100 * callback_stubs.size(), scheduler);
 
